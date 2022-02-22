@@ -14,9 +14,10 @@
 <body>
 
 	<div class="b-example-divider"></div>
-
+  
   <header class="p-3 bg-dark text-white">
-    <div class="container">
+    <div class="container ">
+      
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
@@ -46,42 +47,43 @@
         </div>
     </header>
 
+    
     <h1 class="px-4 py-5 my-5 text-center">AUTORES</h1>
 
+    <div class="p-5 mb-5 bg-secondary text-white">
+      <div class="container m-5">
+      <table class="table table-dark">
+        <thead>
+          <tr>					
+            <th scope="col">Nombre</th>
+            <th scope="col">ID</th>
+            <th scope="col">Editar Autor</th>
+            <th scope="col">Eliminar Autor</th>
+          </tr>
+        </thead>
+        <tbody th:each="autor : ${autores}">
+          <tr>					
+            <td th:text="${autor.nombre}"></td>
+            <td th:text="${autor.id}"></td>
+            <td><a th:href="@{/}" class="btn btn-primary my-2">Editar</a></td>           
+            <td><a th:href="@{/}" class="btn btn-primary my-2">Dar Baja</a></td> 
 
-    <div class="container m-5">
-		<table class="table table-dark">
-			<thead>
-				<tr>					
-					<th scope="col">Nombre</th>
-					<th scope="col">ID</th>
-          <th scope="col">Editar Autor</th>
-          <th scope="col">Eliminar Autor</th>
-				</tr>
-			</thead>
-			<tbody th:each="autor : ${autores}">
-				<tr>					
-					<td th:text="${autor.nombre}"></td>
-					<td th:text="${autor.id}"></td>
-          <td><a th:href="@{/}" class="btn btn-primary my-2">Editar</a></td>           
-          <td><a th:href="@{/}" class="btn btn-primary my-2">Dar Baja</a></td> 
+          </tr>
 
-				</tr>
+        </tbody>
+      </table>
 
-			</tbody>
-		</table>
-
-		<section class="py-5 text-center container">
-			<div class="row py-lg-5">
-				<div class="col-lg-6 col-md-8 mx-auto">
-					<a th:href="@{/}" class="btn btn-primary my-2">Volver</a>
-					</p>
-				</div>
-			</div>
-		</section>
+      <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <a th:href="@{/}" class="btn btn-primary my-2">Volver</a>
+            </p>
+          </div>
+        </div>
+      </section>
 
 	</div>
-
+  </div>
   <footer class="text-muted py-5">
     <div class="container">
       <p class="float-end mb-1">
