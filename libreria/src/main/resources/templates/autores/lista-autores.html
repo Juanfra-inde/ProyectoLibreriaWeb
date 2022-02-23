@@ -65,9 +65,17 @@
           <tr>					
             <td th:text="${autor.nombre}"></td>
             <td th:text="${autor.id}"></td>
-            <td><a th:href="@{/}" class="btn btn-primary my-2">Editar</a></td>           
-            <td><a th:href="@{/}" class="btn btn-primary my-2">Dar Baja</a></td> 
-
+            <td>
+              <a  th:href="@{autores/formulario(id = __${autor.id}__)}"  class="btn btn-primary my-2">Editar</a>
+            </td>           
+            <td>
+              <!--
+                <a th:if="${autor.alta}" th:href="@{/autores/baja/__${autor.id}__"  class="btn btn-danger my-2"> Dar Baja</a>
+                <a th:unless="${autor.alta}" th:href="@{/autores/alta/__${autor.id}__" class="btn btn-danger my-2">Dar Baja</a>
+              -->
+              <a th:action="@{__${autor.id}__}" class="btn btn-danger my-2">Dar Baja</a>
+            </td> 
+            
           </tr>
 
         </tbody>
@@ -77,6 +85,7 @@
         <div class="row py-lg-5">
           <div class="col-lg-6 col-md-8 mx-auto">
             <a th:href="@{/}" class="btn btn-primary my-2">Volver</a>
+            <a th:href="@{/autores/formulario}" class="btn btn-primary my-2">Nuevo Autor</a>
             </p>
           </div>
         </div>

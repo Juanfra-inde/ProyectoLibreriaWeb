@@ -17,6 +17,17 @@
             
             <div class="px-4 py-5 my-5 text-center">
                 
+                <!--
+                <div th:if="${Error != null}" class="card text-white bg-danger mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${Error}"></p>
+                    </div>
+                </div>
+                -->
+
+                <p th:if="${Error != null}" th:text="${Error}" style="color: red;"></p>
+
                 <div class="mb-3">
 
                     <label for="nombre del autor" class="form-label">Nombre</label>

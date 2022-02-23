@@ -65,6 +65,11 @@ public class AutorService {
     }
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public Autor buscarAutor2(String id){
+        return autortepositorio.findById(id).get();
+    }
+    
+    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
     public void Alta(Autor autor){
         if(autor.getAlta() == false){
             autor.setAlta(true);
