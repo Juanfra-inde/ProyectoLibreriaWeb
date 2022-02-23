@@ -9,27 +9,31 @@
 </head>
 <body>
 
-    <div class="container-fluid m-4 d-flex flex-colum">
+    <div class="container-fluid m-4 d-flex flex-colum bg-light">
 
         <form th:action="@{/editoriales/form}" th:object="${editorial}" method="POST">
 
-            <h1 th:text="${editorial.id != null and !#strings.isEmpty(editorial.id) ? 'Editar Editorial' : 'Nueva Editorial'}"></h1>
-            <div class="input-group mb-3 w-25">
+            <div class="px-4 py-5 my-5 text-center">
+                <h1 th:text="${editorial.id != null and !#strings.isEmpty(editorial.id) ? 'Editar Editorial' : 'Nueva Editorial'}"></h1>
+            </div>
+            
+            <div class="px-8 py-8 my-8 text-center">
 
+                <label for="nombre de la editorial" class="form-label">Nombre</label>
                 <input class="from-control" type="text" th:field="*{nombre}" th:value="*{nombre}"
                        placeholder="Escribi el nombre de la editorial" autofocus/>
                 <input class="form-control" type="hidden" th:field="*{id}" th:value="${editorial.id}" />
                 <input class="form-control" type="hidden" th:field="*{alta}" th:value="${editorial.alta}" />
-                <button th:text="${editorial.id != null && !#strings.isEmpty(editorial.id) ? 'Guardar' : 'Crear'}" class="btn btn-sm btn.info" type="submit"></button>
-                <!-- 
-                    if(autor.id != null && !#strings.isEmpty(autor.id)){
-                        sout("Guardar")
-                    }else{
-                        sout("Crear")
-                    }
-                 -->
+                <div class="mb-3 form-text">Tener en cuenta que es el nombre de fantacia de la empresa</div>
+                <div class="mb-3">
+                    <button th:text="${editorial.id != null && !#strings.isEmpty(editorial.id) ? 'Guardar' : 'Crear'}" class="btn btn-primary" type="submit"></button>
+                </div>
+                <div class="mb-3">
+                    <p class="text-danger" th:text="${error}"></p>
+                </div>
+                
             </div>
-            <p class="text-danger" th:text="${errorMessage}"></p>
+            
         </form>
 
     </div>

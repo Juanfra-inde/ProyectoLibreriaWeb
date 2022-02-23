@@ -52,5 +52,8 @@ public class EditorialService {
             throw new Exception("Editorial no encontrada");
         }
     }
+    public Editorial buscarEditorial(String id){
+        return editorialrepositorio.findById(id).get();
+    }
     
 }

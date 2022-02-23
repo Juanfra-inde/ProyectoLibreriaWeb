@@ -28,7 +28,6 @@
           <li><a th:href="@{/autores}" class="nav-link px-2 text-white" target="_blank">Autores</a></li>
           <li><a th:href="@{/libros}" class="nav-link px-2 text-white" target="_blank">Libros</a></li>
           <li><a th:href="@{/editoriales}" class="nav-link px-2 text-white" target="_blank">Editoriales</a></li>
-          <li><a th:href="@{/autores/formulario}" class="nav-link px-2 text-white">Formulario</a></li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -68,12 +67,15 @@
             <td>
               <a  th:href="@{autores/formulario(id = __${autor.id}__)}"  class="btn btn-primary my-2">Editar</a>
             </td>           
-            <td>
-              <!--
-                <a th:if="${autor.alta}" th:href="@{/autores/baja/__${autor.id}__"  class="btn btn-danger my-2"> Dar Baja</a>
-                <a th:unless="${autor.alta}" th:href="@{/autores/alta/__${autor.id}__" class="btn btn-danger my-2">Dar Baja</a>
-              -->
-              <a th:action="@{__${autor.id}__}" class="btn btn-danger my-2">Dar Baja</a>
+            <td class="text-center">
+                <!--  
+                      <a th:text="${autor.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{autores/altabaja/__${autor.id}__"  class="btn btn-danger my-2"></a>              
+                      <a th:action="@{__${autor.id}__}" class="btn btn-danger my-2">Dar Baja</a> 
+                
+                <a th:if="@{autor.alta}" th:href="@{/autores/alta/__${autor.id}__}"> <i class="fas fa-check text-success">Dar Baja</i> </a>
+                <a th:unless="@{autor.alta}" th:href="@{/autores/alta/__${autor.id}__}"> <i class="fas fa-check text-danger">Dar Alta</i></a>
+                -->
+                <a th:text="${autor.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{autores/alta/__${autor.id}__}"  class="btn btn-danger my-2"></a>
             </td> 
             
           </tr>

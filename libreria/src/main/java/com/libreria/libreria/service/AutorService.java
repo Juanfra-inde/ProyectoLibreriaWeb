@@ -30,7 +30,7 @@ public class AutorService {
     public Autor guardarAutor(Autor autor) throws Exception{
         
         validar(autor);     
-        autor.setAlta(true);
+//        autor.setAlta(true);
         return autortepositorio.save(autor);
     }
     
@@ -70,15 +70,19 @@ public class AutorService {
     }
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
-    public void Alta(Autor autor){
-        if(autor.getAlta() == false){
+    public void Alta(String id){
+        Autor autor = autortepositorio.findById(id).get();        
+        if(autor.getAlta() == null || autor.getAlta() == false){
             autor.setAlta(true);
             autortepositorio.save(autor);
         }else{
             autor.setAlta(false);
             autortepositorio.save(autor);
         }
+        autortepositorio.save(autor);        
     }
+    
+    
     
     
 }

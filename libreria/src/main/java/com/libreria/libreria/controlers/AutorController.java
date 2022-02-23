@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,14 +33,14 @@ public class AutorController {
     }
 
     @GetMapping("/formulario")
-    public String showForm(ModelMap model,@RequestParam(required = false) String id) throws Exception {
+    public String showForm(ModelMap model, @RequestParam(required = false) String id) throws Exception {
         try {
-            
-            if(id != null){
+
+            if (id != null) {
                 Optional autor = autorservicio.buscarAutor(id);
-                model.addAttribute("autor",autor.get());
+                model.addAttribute("autor", autor.get());
                 return "/autores/autor-formulario";
-            }else{
+            } else {
                 model.addAttribute("autor", new Autor());
                 return "/autores/autor-formulario";
             }
@@ -47,37 +48,35 @@ public class AutorController {
             model.put("Error", e.getMessage());
             return "/autores/autor-formulario";
         }
-        
+
     }
 
     @PostMapping("/formulario")
-    public String saveAutor(ModelMap model,@ModelAttribute Autor autor) {
+    public String saveAutor(ModelMap model, @ModelAttribute Autor autor) {
         try {
             autorservicio.guardarAutor(autor);
             return "redirect:/autores";
         } catch (Exception e) {
-            model.put("Error",e.getMessage());
+            model.put("Error", e.getMessage());
             model.addAttribute("autor", autor);
             return "/autores/autor-formulario";
         }
     }
-    
-//    @GetMapping
-//    public String baja(@RequestParam String id){
-//        try {
-//            Autor autor = autorservicio.buscarAutor2(id); 
-//            autor.setAlta(false);
-//            autorservicio.guardarAutor(autor);
-//            return "/autores/lista-autores";
-//        } catch (Exception e) {            
-//            return "/autores/lista-autores";
-//            
-//        }
-//        
-//    }
-//    
-//    @GetMapping
-//    public String alta(@RequestParam String id){
+
+    @GetMapping("/alta/{id}")
+    public String altabaja(@PathVariable("id") String id) {
+        try {
+            autorservicio.Alta(id);
+            return "redirect:/autores";
+        } catch (Exception e) {
+            return "redirect:/autores";
+
+        }
+
+    }
+
+//    @GetMapping("/alta/{id}")
+//    public String alta(@PathVariable("id") String id){
 //        try {
 //            Autor autor = autorservicio.buscarAutor2(id); 
 //            autor.setAlta(true);
@@ -87,7 +86,6 @@ public class AutorController {
 //            return "/autores/lista-autores";            
 //        }        
 //    }
-    
     /*
     
     METODO PETICION DE NOMBRE:
@@ -125,7 +123,5 @@ public class AutorController {
     
     
     
-    */
-    
-    
+     */
 }
