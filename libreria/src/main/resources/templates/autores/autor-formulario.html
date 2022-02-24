@@ -15,16 +15,7 @@
                 <h1 th:text="${autor.id != null and !#strings.isEmpty(autor.id) ? 'Editar Autor' : 'Nuevo Autor'}"></h1>
             </div>
             
-            <div class="px-4 py-5 my-5 text-center">
-                
-                <!--
-                <div th:if="${Error != null}" class="card text-white bg-danger mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Error</h5>
-                        <p class="card-text" th:text="${Error}"></p>
-                    </div>
-                </div>
-                -->
+            <div class="px-4 py-5 my-5 text-center">               
 
                 <p th:if="${Error != null}" th:text="${Error}" style="color: red;"></p>
 
@@ -50,13 +41,7 @@
                 </div>
                 
                 <button th:text="${autor.id != null && !#strings.isEmpty(autor.id) ? 'Guardar' : 'Crear'}" class="btn btn-primary" type="submit"></button>
-                <!-- 
-                    if(autor.id != null && !#strings.isEmpty(autor.id)){
-                        sout("Guardar")
-                    }else{
-                        sout("Crear")
-                    }
-                    -->
+                
             </div>
         </form>
         

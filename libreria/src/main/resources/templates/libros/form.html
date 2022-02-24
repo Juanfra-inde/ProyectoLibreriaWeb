@@ -9,21 +9,63 @@
         <title>Libros Formulario</title>
     </head>
     <body>
-        <div class="px-4 py-5 my-5 text-center">
-            <h1>Formulario Saludo</h1>
+        <div class="px-4 py-5 my-5 text-left">
+            <form th:action="@{/libros/formulario}" th:object="${libro}" method="POST">
+
+                <p th:if="${Error != null}" th:text="${Error}" style="color: red;"></p>
+                <fieldset>                
+                    <div class="px-4 py-5 my-5 text-center">
+                        <h1 th:text="${libro.id != null and !#strings.isEmpty(libro.id) ? 'Editar Libro' : 'Nuevo Libro'}"></h1>
+                    </div>
+                  <div class="mb-3">
+                    <label for="nombre del libro" class="form-label">Titulo</label>
+                    <input type="text" class="form-control" th:field="*{titulo}" th:value="*{titulo}" placeholder="Titulo del libro" autofocus>
+                  </div>
+                  <div class="mb-3">
+                    <label for="numero de isbn" class="form-label">ISBN</label>
+                    <input type="number" class="form-control" th:field="*{isbn}" th:value="*{isbn}" placeholder="ISBN del libro">
+                  </div>
+                  <div class="mb-3">
+                    <label for="año en que salio el libro" class="form-label">Año</label>
+                    <input type="number" class="form-control" th:field="*{anio}" th:value="*{anio}" placeholder="Año de salida del libro">
+                  </div>
+                  <div class="mb-3">
+                    <label for="ejemplares imprimidos" class="form-label">Ejemplares</label>
+                    <input type="number" class="form-control" th:field="*{ejemplares}" th:value="*{ejemplares}" placeholder="Ejemplares imprimidos">
+                  </div>
+                  <div class="mb-3">
+                    <label for="ejemplares prestados" class="form-label">Ejemplares Prestados</label>
+                    <input type="number" class="form-control" th:field="*{ejemplaresprestados}" th:value="*{ejemplaresprestados}" placeholder="Ejemplares prestados/o no disponibles">
+                  </div>
+                  <div class="mb-3">                    
+                    <input type="hidden" class="form-control" placeholder="alta">
+                  </div>
+                  <!--
+                  <div class="mb-3">
+                    <label for="disabledSelect" class="form-label">Autor</label>
+                    <select id="disabledSelect" th:field="*{ejemplaresprestados}" th:value="*{ejemplaresprestados}" class="form-select">
+                      <option>Casi papi//En construccion//</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="disabledSelect" class="form-label">Editorial</label>
+                    <select id="disabledSelect" class="form-select">
+                      <option>Casi papi//En construccion//</option>
+                    </select>
+                  </div>
+                  -->
+                  <div class="mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
+                      <label class="form-check-label" for="disabledFieldsetCheck">
+                        Can't check this
+                      </label>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </fieldset>
+              </form>
         </div>
-        
-        <div class="px-4 py-5 my-5 text-center">
-
-            <form action="/libros/form" method="post">
-                <input type="text" placeholder="Nombre" name="nombre">
-                <input type="text" placeholder="Apellido" name="apellido">
-                <input type="submit" value="Salute!">
-            </form>
-
-        </div>
-        
-
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>

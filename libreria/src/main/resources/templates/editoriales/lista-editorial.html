@@ -61,16 +61,11 @@
 				<tr>					
 					<td th:text="${editorial.nombre}"></td>
 					<td th:text="${editorial.id}"></td>
-          <td>
+          <td class="text-center">
             <a  th:href="@{editoriales/form(id = __${editorial.id}__)}"  class="btn btn-primary my-2">Editar</a>
           </td> 
           <td class="text-center">
-            <!--  <a th:text="${autor.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{autores/altabaja/__${autor.id}__"  class="btn btn-danger my-2"></a>              
-                  <a th:action="@{__${autor.id}__}" class="btn btn-danger my-2">Dar Baja</a> 
-            -->
-            <a th:if="@{editorial.alta}" th:href="@{/editorial/altabaja/__${editorial.id}__}"> <i class="fas fa-check text-success">Dar Baja</i> </a>
-            <a th:if="@{editorial.alta}" th:href="@{/editorial/altabaja/__${editorial.id}__}"> <i class="fas fa-check text-danger">Dar Alta</i></a>
-            
+            <a th:text="${editorial.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{editoriales/alta/__${editorial.id}__}"  class="btn btn-danger my-2"></a>
         </td> 
 				</tr>
 

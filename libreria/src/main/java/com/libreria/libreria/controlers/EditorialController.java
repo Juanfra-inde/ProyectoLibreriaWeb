@@ -30,7 +30,7 @@ public class EditorialController {
     public String listarLibros(ModelMap model){
         List<Editorial> editoriales = editorialservice.listarEditoriales();
         model.addAttribute("editoriales",editoriales);
-        return "/editoriales/lista-editorial.html";
+        return "/editoriales/lista-editorial";
     }
     
     @GetMapping("/form")
@@ -39,14 +39,14 @@ public class EditorialController {
             if(id != null){
                 Editorial editorial = editorialservice.buscarEditorial(id);
                 model.addAttribute("editorial",editorial);
-                return "/editoriales/form.html";
+                return "/editoriales/form";
             }else{
                 model.addAttribute("editorial", new Editorial());
-                return "/editoriales/form.html";
+                return "/editoriales/form";
             }            
         } catch (Exception e) {
-            model.put("error", e.getMessage());
-            return "/editoriales/form.html";
+            model.put("Error", e.getMessage());            
+            return "/editoriales/form";
         }
     }
 
@@ -54,31 +54,24 @@ public class EditorialController {
     public String saveAutor(ModelMap model,@ModelAttribute Editorial editorial) {
         try {
             editorialservice.guardarEditorial(editorial);
-            return "redirect:/editoriales.html";
+            return "redirect:/editoriales";
         } catch (Exception e) {
-            model.put("error",e.getMessage());
-            model.addAttribute("editoriales",editorial);
-            return "/editoriales/from.html";
+            model.put("Error",e.getMessage());
+            model.addAttribute("editorial",editorial);
+            return "/editoriales/from";
         }
     }
     
     @GetMapping("/alta/{id}")
-    public String altabaja(@PathVariable("id") String id){
-        try {               
-            
-            Editorial editorial = editorialservice.buscarEditorial(id); 
-            if(editorial.getAlta() == true){
-                editorial.setAlta(false);
-            }else if(editorial.getAlta() == null || editorial.getAlta() == false){
-                editorial.setAlta(true);
-            }                  
-            editorialservice.guardarEditorial(editorial);
-            return "redirect:";
-        } catch (Exception e) {            
-            return "/editoriales/lista-editorial";
-            
+    public String altabaja(@PathVariable("id") String id) {
+        try {
+            editorialservice.Alta(id);
+            return "redirect:/editoriales";
+        } catch (Exception e) {
+            return "redirect:/editorailes";
+
         }
-        
+
     }
     
     

@@ -22,57 +22,22 @@ public class LibroServicio {
     public LibroServicio(LibroRepositorio librorepositorio) {
         this.librorepositorio = librorepositorio;
     }
-       
-//    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
-//    public void guardar(Libro libro){
-//        
-//        if(libro.getTitulo().trim().isEmpty()){
-//            
-//        }
-//        librorepositorio.save(libro);
-//    }
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)
-    public Libro guardar(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Autor autor, Editorial editorial, Boolean alta, Boolean baja) throws Exception{
-        
-        Integer librosprestantes = lPrestados(ejemplares, ejemplaresPrestados);
-        
-        validar(isbn, titulo, anio, ejemplares, ejemplaresPrestados,librosprestantes);        
-        
-        Libro libro = new Libro();
-        
-        libro.setIsbn(isbn);
-        libro.setTitulo(titulo);
-        libro.setAnio(anio);
-        libro.setEjemplares(ejemplares);
-        libro.setEjemplaresPrestados(ejemplaresPrestados);
-        libro.setEjemplaresRestantes(librosprestantes);
-        libro.setEditorial(editorial);
-        libro.setAutor(autor);
-        libro.setAlta(true);
-        libro.setBaja(false);
-        
-        
-        return librorepositorio.save(libro);
-        
+    public void guardar(Libro libro) throws Exception{        
+        libro.setEjemplaresRestantes(lPrestados(libro.getEjemplares(),libro.getEjemplaresPrestados()));
+        validar(libro);        
+        librorepositorio.save(libro);
     }
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)
-    public void modificarLibro(String id,String titulo,Long isbn, Integer anio, Integer ejemplares,Integer ejemplaresPrestados,Autor autor,Editorial editorial) throws Exception{
-        
-        validar(isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresPrestados);
+    public void modificarLibro(String id) throws Exception{
         
         Optional<Libro> respuesta = librorepositorio.findById(id);
-        
+            
         if (respuesta.isPresent()) {
             Libro libro = respuesta.get();
-            libro.setTitulo(titulo);
-            libro.setIsbn(isbn);
-            libro.setEjemplares(ejemplares);
-            libro.setEjemplaresPrestados(ejemplaresPrestados);
-            libro.setAutor(autor);
-            libro.setEditorial(editorial);
-
+            validar(libro);
             librorepositorio.save(libro);
         }else{
             throw new Exception("Libro no encontrado");
@@ -81,29 +46,29 @@ public class LibroServicio {
     }
 
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)
-    private void validar(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes) throws Exception {
+    private void validar(Libro libro) throws Exception {
         
-        if (isbn<0 || isbn == null) {
+        if (libro.getIsbn()<0 || libro.getIsbn() == null) {
             throw new Exception("Isbn debe tener un valor valido");
         }
         
-        if (titulo == null || titulo.isEmpty() || titulo.contains("  ")) {
+        if (libro.getTitulo() == null || libro.getTitulo().isEmpty() || libro.getTitulo().contains("  ")) {
             throw new Exception("Debe tener un nombre valido");
         }
         
-        if (anio<0 || anio == null || anio>2025) {
+        if (libro.getAnio()<0 || libro.getAnio() == null || libro.getAnio()>2025) {
             throw new Exception("El Añio debe tener un valor valido");
         }
         
-        if (ejemplares<0 || ejemplares == null) {
+        if (libro.getEjemplares()<0 || libro.getEjemplares() == null) {
             throw new Exception("Los Ejemplares deben de tener un valor valido");
         }
         
-        if (ejemplaresPrestados<0 || ejemplaresPrestados == null || ejemplaresPrestados>ejemplares) {
+        if (libro.getEjemplaresPrestados()<0 || libro.getEjemplaresPrestados() == null || libro.getEjemplaresPrestados()>libro.getEjemplares()) {
             throw new Exception("Los Ejemplares Prestados deben de tener un valor valido");
         }
         
-        if (ejemplaresRestantes<0 || ejemplaresRestantes == null || ejemplaresRestantes>ejemplares) {
+        if (libro.getEjemplaresRestantes()<0 || libro.getEjemplaresRestantes() == null || libro.getEjemplaresRestantes()>libro.getEjemplares()) {
             throw new Exception("Los Ejemplares Restantes deben de tener un valor valido");
         }
         
@@ -120,27 +85,15 @@ public class LibroServicio {
         return lprestados;
     }
     
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)
-    public Libro alta(String id){
-        
-        Libro l = librorepositorio.findById(id).get();
-        
-        l.setBaja(false);
-        l.setAlta(true);
-        
-        return librorepositorio.save(l);
-    }
-    
-    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)
-    public Libro baja(String id){
-        
-        Libro l = librorepositorio.findById(id).get();
-        
-        
-        l.setBaja(true);
-        l.setAlta(false);
-        
-        return librorepositorio.save(l);
+     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public void Alta(String id){
+        Libro libro = librorepositorio.findById(id).get();        
+        if(libro.getAlta() == null || libro.getAlta() == false){
+            libro.setAlta(true);
+        }else{
+            libro.setAlta(false);
+        }
+        librorepositorio.save(libro);        
     }
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)

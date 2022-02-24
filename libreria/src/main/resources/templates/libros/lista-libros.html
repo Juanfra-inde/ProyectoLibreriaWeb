@@ -21,26 +21,12 @@
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
         </a>
-
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a th:href="@{/}" class="nav-link px-2 text-secondary" target="_blank">Home</a></li>
           <li><a th:href="@{/autores}" class="nav-link px-2 text-white" target="_blank">Autores</a></li>
-          <li><a th:href="@{/libros}" class="nav-link px-2 text-white" target="_blank">Libros</a></li>
-          <li><a th:href="@{/editoriales}" class="nav-link px-2 text-white" target="_blank">Editoriales</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Contacto</a></li>
+          <li><a th:href="@{/editoriales}" class="nav-link px-2 text-white" target="_blank">Editoriales</a></li>          
         </ul>
-
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-        </form>
-
-        <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Login</button>
-          <button type="button" class="btn btn-warning">Sign-up</button>
-        </div>
       </div>
-        </div>
-        
         <div>
             <h1 class="titular">Libreria Pipo Neverdie</h1>
         </div>
@@ -50,34 +36,39 @@
         <h1>Libros</h1>
     </div>
 
-    <div class="container m-5">
-		<table class="table table-dark">
-			<thead>
-				<tr>					
-					<th scope="col">Titulo</th>
-					<th scope="col">Autor</th>
-					<th scope="col">Editorial</th>
-          <th scope="col">Editar Libro</th>
-          <th scope="col">Eliminar Libro</th>
-				</tr>
-			</thead>
-			<tbody th:each="libro : ${libros}">
-				<tr>					
-					<td th:text="${libro.titulo}"></td>
-          <td th:text="${libro.nombre}"></td>
-          <td th:text="${libro.nombre}"></td>
-          <td><a th:href="@{/}" class="btn btn-primary my-2">Editar</a></td> 
-          <td><a th:href="@{/}" class="btn btn-primary my-2">Dar Baja</a></td> 
+    <table class="table table-success table-striped">
+      <thead>
+        <tr>
+          <th>Titulo</th>
+          <th>Isbn</th>
+          <th>Añio</th>
+          <th>Ejemplares</th>
+          <th>Ejemplares Restantes</th>
         </tr>
+      </thead>
 
-			</tbody>
-		</table>
-
+      <tbody th:each="libro : ${libros}">
+        <tr>
+          <th th:text="${libro.titulo}"></th>
+          <th th:text="${libro.isbn}"></th>
+          <th th:text="${libro.anio}"></th>
+          <th th:text="${libro.ejemplares}"></th>
+          <th th:text="${libro.ejemplaresRestantes}"></th>
+          <th>
+            <a  th:href="@{libros/form(id = __${libro.id}__)}"  class="btn btn-primary my-2">Editar</a>
+          </th>
+          <th>
+            <a th:text="${libro.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{libro/alta/__${libro.id}__}"  class="btn btn-danger my-2"></a>
+          </th>          
+        </tr>
+      </tbody>
+    </table>
+   
 		<section class="py-5 text-center container">
 			<div class="row py-lg-5">
 				<div class="col-lg-6 col-md-8 mx-auto">
 					<a th:href="@{/}" class="btn btn-primary my-2">Volver</a>
-					</p>
+					<a th:href="@{/libros/formulario}" class="btn btn-primary my-2">Nuevo Libro</a>
 				</div>
 			</div>
 		</section>

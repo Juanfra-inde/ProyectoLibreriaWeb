@@ -62,7 +62,7 @@ public class AutorController {
             return "/autores/autor-formulario";
         }
     }
-
+    
     @GetMapping("/alta/{id}")
     public String altabaja(@PathVariable("id") String id) {
         try {

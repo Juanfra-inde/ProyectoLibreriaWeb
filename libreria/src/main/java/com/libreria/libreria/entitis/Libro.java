@@ -1,13 +1,10 @@
 
 package com.libreria.libreria.entitis;
 
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -24,7 +21,6 @@ public class Libro {
     private Integer ejemplaresPrestados;
     private Integer ejemplaresRestantes;
     private Boolean alta;
-    private Boolean baja;
     
     
     /*
@@ -51,16 +47,15 @@ public class Libro {
     public Libro() {
     }
 
-    public Libro(String id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Boolean alta, Boolean baja, Autor autor, Editorial editorial) {
-        this.id = id;
+    public Libro(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Boolean alta, Autor autor, Editorial editorial) {
+        
         this.isbn = isbn;
         this.titulo = titulo;
         this.anio = anio;
         this.ejemplares = ejemplares;
         this.ejemplaresPrestados = ejemplaresPrestados;
         this.ejemplaresRestantes = ejemplaresRestantes;
-        this.alta = alta;
-        this.baja = baja;
+        this.alta = alta;        
         this.autor = autor;
         this.editorial = editorial;
     }
@@ -129,14 +124,6 @@ public class Libro {
     public void setAlta(Boolean alta) {
         this.alta = alta;
     }
-
-    public Boolean getBaja() {
-        return baja;
-    }
-
-    public void setBaja(Boolean baja) {
-        this.baja = baja;
-    }    
 
     public Autor getAutor() {
         return autor;

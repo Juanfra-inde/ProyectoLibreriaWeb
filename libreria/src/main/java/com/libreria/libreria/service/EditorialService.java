@@ -27,9 +27,7 @@ public class EditorialService {
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
     public Editorial guardarEditorial(Editorial editorial) throws Exception{
-        
         validar(editorial);
-        editorial.setAlta(true);
         return editorialrepositorio.save(editorial);
     }
 
@@ -52,8 +50,23 @@ public class EditorialService {
             throw new Exception("Editorial no encontrada");
         }
     }
-    public Editorial buscarEditorial(String id){
-        return editorialrepositorio.findById(id).get();
+    public Editorial buscarEditorial(String id) throws Exception{
+        if(id == null || id.isEmpty() || id.contains(" ")){
+            throw new Exception("Id no encontrada");
+        }else{
+            return editorialrepositorio.findById(id).get();
+        }
+    }
+    
+     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public void Alta(String id){
+        Editorial editorial = editorialrepositorio.findById(id).get();        
+        if(editorial.getAlta() == null || editorial.getAlta() == false){
+            editorial.setAlta(true);
+        }else{
+            editorial.setAlta(false);
+        }
+        editorialrepositorio.save(editorial);        
     }
     
 }
