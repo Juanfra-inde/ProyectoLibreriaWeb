@@ -12,48 +12,54 @@
         <div class="px-4 py-5 my-5 text-left">
             <form th:action="@{/libros/formulario}" th:object="${libro}" method="POST">
 
-                <p th:if="${Error != null}" th:text="${Error}" style="color: red;"></p>
+                
                 <fieldset>                
                     <div class="px-4 py-5 my-5 text-center">
                         <h1 th:text="${libro.id != null and !#strings.isEmpty(libro.id) ? 'Editar Libro' : 'Nuevo Libro'}"></h1>
                     </div>
                   <div class="mb-3">
-                    <label for="nombre del libro" class="form-label">Titulo</label>
+                    <label for="titulo" class="form-label">Titulo</label>
                     <input type="text" class="form-control" th:field="*{titulo}" th:value="*{titulo}" placeholder="Titulo del libro" autofocus>
                   </div>
                   <div class="mb-3">
-                    <label for="numero de isbn" class="form-label">ISBN</label>
+                    <label for="isbn" class="form-label">ISBN</label>
                     <input type="number" class="form-control" th:field="*{isbn}" th:value="*{isbn}" placeholder="ISBN del libro">
                   </div>
                   <div class="mb-3">
-                    <label for="año en que salio el libro" class="form-label">Año</label>
+                    <label for="anio" class="form-label">Año</label>
                     <input type="number" class="form-control" th:field="*{anio}" th:value="*{anio}" placeholder="Año de salida del libro">
                   </div>
                   <div class="mb-3">
-                    <label for="ejemplares imprimidos" class="form-label">Ejemplares</label>
+                    <label for="ejemplares" class="form-label">Ejemplares</label>
                     <input type="number" class="form-control" th:field="*{ejemplares}" th:value="*{ejemplares}" placeholder="Ejemplares imprimidos">
                   </div>
                   <div class="mb-3">
-                    <label for="ejemplares prestados" class="form-label">Ejemplares Prestados</label>
-                    <input type="number" class="form-control" th:field="*{ejemplaresprestados}" th:value="*{ejemplaresprestados}" placeholder="Ejemplares prestados/o no disponibles">
+                    <label for="ejemplaresprestados" class="form-label">Ejemplares Prestados</label>
+                    <input type="number" class="form-control" th:field="*{ejemplaresPrestados}" th:value="*{ejemplaresPrestados}" placeholder="Ejemplares prestados/o no disponibles">
                   </div>
-                  <div class="mb-3">                    
-                    <input type="hidden" class="form-control" placeholder="alta">
+                  <div class="mb-3"> 
+
+                    <input type="hidden" class="form-control" th:field="*{id}" th:value="${libro.id}" placeholder="id">
+                    <input type="hidden" class="form-control" th:field="*{alta}" th:value="${libro.alta}" placeholder="alta">
                   </div>
-                  <!--
+                  
                   <div class="mb-3">
                     <label for="disabledSelect" class="form-label">Autor</label>
-                    <select id="disabledSelect" th:field="*{ejemplaresprestados}" th:value="*{ejemplaresprestados}" class="form-select">
-                      <option>Casi papi//En construccion//</option>
+                    <select id="disabledSelect" th:field="${libro.autor}" th:value="${libro.autor}" value="" class="form-select">
+                      <option th:each="autor : ${autores}">
+                        th:text="${autor.nombre}"
+                      </option>
                     </select>
                   </div>
                   <div class="mb-3">
                     <label for="disabledSelect" class="form-label">Editorial</label>
-                    <select id="disabledSelect" class="form-select">
-                      <option>Casi papi//En construccion//</option>
+                    <select id="disabledSelect" th:field="${libro.editorial}" th:value="${libro.editorial}" value="" class="form-select">
+                      <option th:each="editorial : ${editoriales}">
+                        <a th:text="${editorial.nombre}"></a>
+                      </option>
                     </select>
                   </div>
-                  -->
+                  
                   <div class="mb-3">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
@@ -62,7 +68,8 @@
                       </label>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <p th:if="${Error != null}" th:text="${Error}" style="color: red;"></p>
+                  <button th:text="${libro.id != null && !#strings.isEmpty(libro.id) ? 'Guardar' : 'Crear'}" class="btn btn-primary" type="submit"></button>
                 </fieldset>
               </form>
         </div>

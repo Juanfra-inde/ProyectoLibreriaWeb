@@ -1,7 +1,11 @@
 
 package com.libreria.libreria.controlers;
 
+import com.libreria.libreria.entitis.Autor;
+import com.libreria.libreria.entitis.Editorial;
 import com.libreria.libreria.entitis.Libro;
+import com.libreria.libreria.service.AutorService;
+import com.libreria.libreria.service.EditorialService;
 import com.libreria.libreria.service.LibroServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +29,43 @@ public class LibroController {
         this.libroservicio = libroservicio;
     }
     
+    private AutorService autorservicio;
+    
+    
+    public LibroController(AutorService autorservicio) {
+        this.autorservicio = autorservicio;
+    }
+    
+    private EditorialService editorialservicio;
+    
+    
+    public LibroController(EditorialService editorialservicio) {
+        this.editorialservicio = editorialservicio;
+    }
+    
     @GetMapping
     public String listarLibros(ModelMap model){
         List<Libro> libros = libroservicio.listarLibros();
         model.addAttribute("libros",libros);
         return "/libros/lista-libros";
-    }
-    
+    }    
+        
     @GetMapping("/formulario")
     public String mostrarFormulario(ModelMap model,@RequestParam(required = false) String id){
         
         try {
-//            if(id != null){
-//                Libro libro = libroservicio.buscarPorId(id);
-//                model.addAttribute("libro",libro);
-//                return "libros/form";
-//            }else{
-//                model.addAttribute("libro", new Libro());
-//                return "libros/form";
-//            }
-            return "libros/form";
+            if(id != null){
+                Libro libro = libroservicio.buscarPorId(id);
+                model.addAttribute("libro",libro);
+                List<Autor> autores = autorservicio.listarAutores();
+                model.addAttribute("autores",autores);
+                List<Editorial> editoriales = editorialservicio.listarEditoriales();
+                model.addAttribute("editoriales",editoriales);
+                return "libros/form";                                
+            }else{
+                model.addAttribute("libro", new Libro());
+                return "libros/form";
+            }
         } catch (Exception e) {
             model.put("Error",e.getMessage());
             return "libros/form";
