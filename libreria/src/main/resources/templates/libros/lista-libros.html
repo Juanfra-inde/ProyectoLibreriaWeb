@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <div>
+    <div class="text-center">
         <h1>Libros</h1>
     </div>
 
@@ -41,9 +41,11 @@
         <tr>
           <th>Titulo</th>
           <th>Isbn</th>
-          <th>Añio</th>
+          <th>Año</th>
           <th>Ejemplares</th>
           <th>Ejemplares Restantes</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
         </tr>
       </thead>
 
@@ -55,10 +57,10 @@
           <th th:text="${libro.ejemplares}"></th>
           <th th:text="${libro.ejemplaresRestantes}"></th>
           <th>
-            <a  th:href="@{libros/form(id = __${libro.id}__)}"  class="btn btn-primary my-2">Editar</a>
+            <a  th:href="@{libros/formulario(id = __${libro.id}__)}"  class="btn btn-primary my-2">Editar</a>
           </th>
           <th>
-            <a th:text="${libro.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{libro/alta/__${libro.id}__}"  class="btn btn-danger my-2"></a>
+            <a th:text="${libro.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{libros/alta/__${libro.id}__}"  class="btn btn-danger my-2"></a>
           </th>          
         </tr>
       </tbody>

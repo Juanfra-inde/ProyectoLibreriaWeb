@@ -67,14 +67,7 @@
             <td>
               <a  th:href="@{autores/formulario(id = __${autor.id}__)}"  class="btn btn-primary my-2">Editar</a>
             </td>           
-            <td class="text-center">
-                <!--  
-                      <a th:text="${autor.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{autores/altabaja/__${autor.id}__"  class="btn btn-danger my-2"></a>              
-                      <a th:action="@{__${autor.id}__}" class="btn btn-danger my-2">Dar Baja</a> 
-                
-                <a th:if="@{autor.alta}" th:href="@{/autores/alta/__${autor.id}__}"> <i class="fas fa-check text-success">Dar Baja</i> </a>
-                <a th:unless="@{autor.alta}" th:href="@{/autores/alta/__${autor.id}__}"> <i class="fas fa-check text-danger">Dar Alta</i></a>
-                -->
+            <td class="text-center">                
                 <a th:text="${autor.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{autores/alta/__${autor.id}__}"  class="btn btn-danger my-2"></a>
             </td> 
             

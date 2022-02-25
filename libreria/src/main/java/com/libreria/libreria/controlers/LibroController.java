@@ -1,4 +1,3 @@
-
 package com.libreria.libreria.controlers;
 
 import com.libreria.libreria.entitis.Autor;
@@ -12,82 +11,84 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("/libros")
 public class LibroController {
-    
-    private LibroServicio libroservicio;
-    
+
+    private final LibroServicio libroServicio;
+    private final AutorService autorServicio;
+    private final EditorialService editorialServicio;
+
     @Autowired
-    public LibroController(LibroServicio libroservicio) {
-        this.libroservicio = libroservicio;
+    public LibroController(LibroServicio libroServicio,
+            AutorService autorServicio,
+            EditorialService editorialServicio) {
+        this.libroServicio = libroServicio;
+        this.autorServicio = autorServicio;
+        this.editorialServicio = editorialServicio;
+
     }
-    
-    private AutorService autorservicio;
-    
-    
-    public LibroController(AutorService autorservicio) {
-        this.autorservicio = autorservicio;
-    }
-    
-    private EditorialService editorialservicio;
-    
-    
-    public LibroController(EditorialService editorialservicio) {
-        this.editorialservicio = editorialservicio;
-    }
-    
+
     @GetMapping
-    public String listarLibros(ModelMap model){
-        List<Libro> libros = libroservicio.listarLibros();
-        model.addAttribute("libros",libros);
+    public String listarLibros(ModelMap model) {
+        List<Libro> libros = libroServicio.listarLibros();
+        model.addAttribute("libros", libros);
         return "/libros/lista-libros";
-    }    
-        
+    }
+
     @GetMapping("/formulario")
-    public String mostrarFormulario(ModelMap model,@RequestParam(required = false) String id){
-        
+    public String mostrarFormulario(ModelMap model, @RequestParam(required = false) String id) {
+
+        List<Autor> autores = autorServicio.listarAutores();
+        model.addAttribute("autores", autores);
+        List<Editorial> editoriales = editorialServicio.listarEditoriales();
+        model.addAttribute("editoriales", editoriales);
         try {
-            if(id != null){
-                Libro libro = libroservicio.buscarPorId(id);
-                model.addAttribute("libro",libro);
-                List<Autor> autores = autorservicio.listarAutores();
-                model.addAttribute("autores",autores);
-                List<Editorial> editoriales = editorialservicio.listarEditoriales();
-                model.addAttribute("editoriales",editoriales);
-                return "libros/form";                                
-            }else{
+            if (id != null) {
+                Libro libro = libroServicio.buscarPorId(id);
+                model.addAttribute("libro", libro);
+                return "libros/form";
+            } else {
                 model.addAttribute("libro", new Libro());
                 return "libros/form";
             }
         } catch (Exception e) {
-            model.put("Error",e.getMessage());
+            model.put("Error", e.getMessage());
             return "libros/form";
         }
     }
-    
+
     @PostMapping("/formulario")
-    public String saveLibro(@RequestParam Libro libro, ModelMap model){
+    public String saveLibro(@ModelAttribute Libro libro, ModelMap model,
+            @RequestParam String autorId,
+            @RequestParam String editorialId) {
         try {
-            libroservicio.guardar(libro);
-            return "redirect:libros/form";
+
+            Editorial editorial = editorialServicio.buscarEditorial(editorialId);
+            Autor autor = autorServicio.buscarAutor2(autorId);
+
+            libro.setEditorial(editorial);
+            libro.setAutor(autor);
+            
+            libroServicio.guardar(libro);
+            return "redirect:/libros";
         } catch (Exception e) {
             model.put("Error", e.getMessage());
             model.addAttribute("libro", libro);
             return "libros/form";
-        }        
+        }
     }
-    
+
     @GetMapping("/alta/{id}")
     public String altabaja(@PathVariable("id") String id) {
         try {
-            libroservicio.Alta(id);
+            libroServicio.Alta(id);
             return "redirect:/libros";
         } catch (Exception e) {
             return "redirect:/libros";
@@ -95,6 +96,6 @@ public class LibroController {
         }
 
     }
-    
-    
+
+
 }

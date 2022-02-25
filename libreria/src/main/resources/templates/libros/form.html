@@ -15,7 +15,8 @@
                 
                 <fieldset>                
                     <div class="px-4 py-5 my-5 text-center">
-                        <h1 th:text="${libro.id != null and !#strings.isEmpty(libro.id) ? 'Editar Libro' : 'Nuevo Libro'}"></h1>
+                        <h1 th:text="${libro.id != null and !#strings.isEmpty(libro.id) ? 'Editar Libro' : 'Nuevo Libro'}" class="display-1"></h1>
+                        <h3>Tenga conocimiento que debe pre cargar los Autores y/o las Editoriales para poder realizar exitozamente este fromulario.</h2>
                     </div>
                   <div class="mb-3">
                     <label for="titulo" class="form-label">Titulo</label>
@@ -45,31 +46,24 @@
                   
                   <div class="mb-3">
                     <label for="disabledSelect" class="form-label">Autor</label>
-                    <select id="disabledSelect" th:field="${libro.autor}" th:value="${libro.autor}" value="" class="form-select">
-                      <option th:each="autor : ${autores}">
-                        th:text="${autor.nombre}"
+                    <select id="disabledSelect" class="form-select" name="autorId">
+                      <option th:each="autor : ${autores}" th:text="${autor.nombre}" th:value="${autor.id}"
+                      th:selected="${libro.autor != null ? autor.id == libro.autor.id : false}">
                       </option>
                     </select>
                   </div>
                   <div class="mb-3">
                     <label for="disabledSelect" class="form-label">Editorial</label>
-                    <select id="disabledSelect" th:field="${libro.editorial}" th:value="${libro.editorial}" value="" class="form-select">
-                      <option th:each="editorial : ${editoriales}">
-                        <a th:text="${editorial.nombre}"></a>
+                    <select id="disabledSelect" name="editorialId" class="form-select">
+                      <option th:each="editorial : ${editoriales}" th:text="${editorial.nombre}" th:value="${editorial.id}"
+                      th:selected="${libro.editorial != null ? editorial.id == libro.editorial.id : false}">
                       </option>
-                    </select>
+                    </select>                    
                   </div>
-                  
-                  <div class="mb-3">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
-                      <label class="form-check-label" for="disabledFieldsetCheck">
-                        Can't check this
-                      </label>
-                    </div>
-                  </div>
+                    
                   <p th:if="${Error != null}" th:text="${Error}" style="color: red;"></p>
                   <button th:text="${libro.id != null && !#strings.isEmpty(libro.id) ? 'Guardar' : 'Crear'}" class="btn btn-primary" type="submit"></button>
+                  <button th:href="@{/libros}" class="btn btn-primary my-2">Volver</button>
                 </fieldset>
               </form>
         </div>
