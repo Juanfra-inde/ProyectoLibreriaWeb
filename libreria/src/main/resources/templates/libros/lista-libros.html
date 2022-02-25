@@ -44,6 +44,8 @@
           <th>Año</th>
           <th>Ejemplares</th>
           <th>Ejemplares Restantes</th>
+          <th>Autor</th>
+          <th>Editar</th>
           <th>Editar</th>
           <th>Eliminar</th>
         </tr>
@@ -56,6 +58,8 @@
           <th th:text="${libro.anio}"></th>
           <th th:text="${libro.ejemplares}"></th>
           <th th:text="${libro.ejemplaresRestantes}"></th>
+          <th th:text="${libro.autor.nombre}"></th>
+          <th th:text="${libro.editorial.nombre}"></th>
           <th>
             <a  th:href="@{libros/formulario(id = __${libro.id}__)}"  class="btn btn-primary my-2">Editar</a>
           </th>
