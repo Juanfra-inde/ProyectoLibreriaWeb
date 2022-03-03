@@ -37,7 +37,7 @@ public class EditorialService {
             throw new Exception("El nombre cargado es invalido");
         }
     }
-    
+    @Transactional
     public void modificarEditorial(String id, String nombre) throws Exception{
         Optional<Editorial> resultado = editorialrepositorio.findById(id);
         
