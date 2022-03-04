@@ -1,4 +1,24 @@
 .titular{
     text-align: center;
-    color: blanchedalmond;
+    color: rgba(214, 211, 211, 0.781);
+}
+.tituloprincipal{
+    text-align: center;
+    color: rgba(43, 15, 15, 0.479);
+}
+.formulario{
+    text-align: center;
+    border: black;
+    border-style: double;
+    border-collapse: collapse;
+}
+.bg{
+    background-color: antiquewhite;
+}
+.div1 {
+    margin: .4em 0;
+    width: 25%;
+    float: left;
+    text-align: center;
+
 }

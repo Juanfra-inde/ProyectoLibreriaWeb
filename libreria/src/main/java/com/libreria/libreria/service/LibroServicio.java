@@ -56,6 +56,10 @@ public class LibroServicio {
             throw new Exception("Debe tener un nombre valido");
         }
         
+        if(validarTitulo(libro.getTitulo())){
+            throw new Exception("El titulo ingresado ya se encuentra previamente cargado");
+        }
+        
         if (libro.getAnio()<0 || libro.getAnio() == null || libro.getAnio()>2025) {
             throw new Exception("El Añio debe tener un valor valido");
         }
@@ -72,6 +76,14 @@ public class LibroServicio {
             throw new Exception("Los Ejemplares Restantes deben de tener un valor valido");
         }
         
+    }
+    
+    public Boolean validarTitulo(String titulo){
+        if(titulo.equals(librorepositorio.buscarelLibro(titulo))){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)

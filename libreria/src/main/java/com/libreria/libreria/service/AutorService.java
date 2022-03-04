@@ -42,6 +42,7 @@ public class AutorService {
         if(nombre.isEmpty()||nombre.contains("  ")||nombre.length()<2){
             throw new Exception("El nombre ingresado es invalido");
         }
+        
     }
     
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)

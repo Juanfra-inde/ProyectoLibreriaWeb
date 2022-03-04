@@ -60,6 +60,8 @@ public class LibroController {
             }
         } catch (Exception e) {
             model.put("Error", e.getMessage());
+            model.put("editorailes",editoriales);
+            model.put("auotres",autores);
             return "libros/form";
         }
     }
