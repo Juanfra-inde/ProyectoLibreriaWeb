@@ -1,6 +1,6 @@
 .titular{
     text-align: center;
-    color: rgba(214, 211, 211, 0.781);
+    color: rgba(131, 130, 130, 0.87);
 }
 .tituloprincipal{
     text-align: center;
@@ -21,4 +21,27 @@
     float: left;
     text-align: center;
 
+}
+.especifico {
+    font-size: 36cm;
+    font-family: verdana, arial;
+    text-decoration: dotted;
+    text-align: center;
+    background-color: rgb(92, 92, 92);
+}
+.imagen{
+    background-image: url();
+}
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
 }

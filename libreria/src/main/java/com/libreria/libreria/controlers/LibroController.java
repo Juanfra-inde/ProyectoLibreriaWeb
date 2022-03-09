@@ -62,7 +62,7 @@ public class LibroController {
             model.put("Error", e.getMessage());
             model.put("editorailes",editoriales);
             model.put("auotres",autores);
-            return "libros/form";
+            return "libros/formulario";
         }
     }
 
@@ -82,8 +82,9 @@ public class LibroController {
             return "redirect:/libros";
         } catch (Exception e) {
             model.put("Error", e.getMessage());
+            model.put("autores", autorServicio.buscarAutor2(autorId));            
             model.addAttribute("libro", libro);
-            return "libros/form";
+            return "libros/formulario";
         }
     }
 

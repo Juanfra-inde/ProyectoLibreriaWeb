@@ -1,0 +1,40 @@
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<html>
+    <head>
+        <title>Lista de usuarios</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <h1>AUTORES</h1>
+
+        <div>
+        <div>
+        <table>
+            <thead>
+                <tr>					
+                    <th>Nombre</th>
+                    <th>ID</th>
+                    <th>Editar Autor</th>
+                    <th>Eliminar Autor</th>
+                </tr>
+            </thead>
+            <tbody th:each="customer : ${customer}">
+                <tr>					
+                    <td th:text="${customer.nombre}"></td>
+                    <td th:text="${customer.id}"></td>
+                    <td>
+                    <a  th:href="@{customer/formulario(id = __${customer.id}__)}" >Editar</a>
+                    </td>           
+                    <td >                
+                        <a th:text="${customer.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{customer/alta/__${customer.id}__}"></a>
+                    </td> 
+                    
+                </tr>
+
+            </tbody>
+      </table>
+    </body>
+</html>

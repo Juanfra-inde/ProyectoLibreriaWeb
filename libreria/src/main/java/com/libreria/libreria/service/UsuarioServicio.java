@@ -1,7 +1,7 @@
 package com.libreria.libreria.service;
 
 import com.libreria.libreria.entitis.Foto;
-import com.libreria.libreria.entitis.Usuario;
+import com.libreria.libreria.entitis.Customer;
 import com.libreria.libreria.enumeraciones.Roles;
 import com.libreria.libreria.repositories.UsuarioRepositorio;
 import java.util.ArrayList;
@@ -20,121 +20,128 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UsuarioServicio implements UserDetailsService{
-    
-    
+public class UsuarioServicio implements UserDetailsService {
+
     private final UsuarioRepositorio usuariorepositorio;
     private final FotoServicio fotorepositorio;
     private final NotificacionServicio notificacionservicio;
-    
+
     @Autowired
     public UsuarioServicio(UsuarioRepositorio usuariorepositorio, FotoServicio fotorepositorio, NotificacionServicio notificacionservicio) {
         this.usuariorepositorio = usuariorepositorio;
         this.fotorepositorio = fotorepositorio;
         this.notificacionservicio = notificacionservicio;
     }
-    
+
     @Transactional
-    public void registrar(MultipartFile archivo,Usuario usuario) throws Exception{
+    public void registrar(MultipartFile archivo, Customer customer) throws Exception {
+
+        validar(customer);
+        activaralta(customer);
         
-        validar(usuario);
-        activaralta(usuario);
         Foto foto = fotorepositorio.guardar(archivo);
-        usuario.setFoto(foto);
+        customer.setFoto(foto);
         
-        usuario.setContraseña(new BCryptPasswordEncoder().encode(usuario.getContraseña()));
-        
-        usuariorepositorio.save(usuario);
-        
+        customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
+        usuariorepositorio.save(customer);
+
 //        notificacionservicio.enviar("Bienvenido a la libreria virutal","Libreria PipoNeverDie", usuario.getMail());
     }
 
-    public void activaralta(Usuario usuario){
-        if (usuario.getRol() != null) {
-            usuario.setRol(Roles.USER);
-            usuario.setAlta(true);
+    public void activaralta(Customer customer) {
+        if (customer.getRol() == null) {
+            customer.setRol(Roles.USER);
+            customer.setAlta(true);
         }
     }
-    
-    public void validar(Usuario usuario) throws Exception{
+
+    public void validar(Customer customer) throws Exception {
         
-        if(usuario.getNombre() == null || usuario.getNombre().isEmpty() || usuario.getNombre().equals(" ")){
+        if (customer.getName() == null || customer.getName().isEmpty() || customer.getName().equals(" ")) {
             throw new Exception("El nombre ingresado es incorrecto");
         }
-        
-        if (usuario.getApellido() == null || usuario.getApellido().isEmpty() || usuario.getApellido().equals(" ")) {
+
+        if (customer.getLastname() == null || customer.getLastname().isEmpty() || customer.getLastname().equals(" ")) {
             throw new Exception("El apellido ingressado es invalido");
         }
-        
-        if (usuario.getMail() == null || usuario.getMail().isEmpty() || usuario.getMail().contains(" ")) {
+
+        if (customer.getEmail() == null || customer.getEmail().isEmpty() || customer.getEmail().contains(" ")) {
             throw new Exception("El mail ingresado es invalido");
         }
-        
-        if (usuario.getContraseña() == null || usuario.getContraseña().isEmpty() || usuario.getContraseña().contains(" ") || usuario.getContraseña().length()<6) {
+
+        if (customer.getPassword() == null || customer.getPassword().isEmpty() || customer.getPassword().contains(" ") || customer.getPassword().length() < 6) {
             throw new Exception("La contraseña ingresado es invalido");
-        }       
+        }
+        
+        if (customer.getEmail().equals(usuariorepositorio.findByEmail(customer.getEmail()))) {
+            throw new Exception("El e-mail ingresado ya se encuentra registrado");
+        }
+        
+        
         
     }
+
     @Transactional
-    public void modificar(MultipartFile archivo, String id)throws Exception{
-        Optional<Usuario> respuesta = usuariorepositorio.findById(id);        
+    public void modificar(MultipartFile archivo, String id) throws Exception {
+        Optional<Customer> respuesta = usuariorepositorio.findById(id);
         if (respuesta.isPresent()) {
-            Usuario usuario = respuesta.get();
-            validar(usuario);
-            
+            Customer customer = respuesta.get();
+            validar(customer);
+
             String idFoto = null;
-            if (usuario.getFoto() != null) {
-                idFoto = usuario.getFoto().getId();                
+            if (customer.getFoto() != null) {
+                idFoto = customer.getFoto().getId();
             }
-            
+
             Foto foto = fotorepositorio.acutalizar(idFoto, archivo);
-            usuario.setFoto(foto);
-            
-            usuario.setContraseña(new BCryptPasswordEncoder().encode(usuario.getContraseña()));
-            
-            usuariorepositorio.save(usuario);
-        }else{
+            customer.setFoto(foto);
+
+            customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
+
+            usuariorepositorio.save(customer);
+        } else {
             throw new Exception("El usuario no ha sido encontrado");
-        } 
+        }
     }
+
     @Transactional
-    public void altabaja(String id) throws Exception{
-        Optional<Usuario> respuesta = usuariorepositorio.findById(id);        
+    public Customer buscarPorId(String id) {
+        return usuariorepositorio.findById(id).get();
+    }
+
+    @Transactional
+    public List<Customer> buscarUsuarios() {
+        return usuariorepositorio.findAll();
+    }
+
+    @Transactional
+    public void altabaja(String id) throws Exception {
+        Optional<Customer> respuesta = usuariorepositorio.findById(id);
         if (respuesta.isPresent()) {
-            Usuario usuario = respuesta.get();
-            if(usuario.getAlta() == false){
-                usuario.setAlta(true);
-            }else{
-                usuario.setAlta(false);
-            }            
-            validar(usuario);
-            usuariorepositorio.save(usuario);
-        }else{
+            Customer customer = respuesta.get();
+            if (customer.getAlta() == false) {
+                customer.setAlta(true);
+            } else {
+                customer.setAlta(false);
+            }
+            validar(customer);
+            usuariorepositorio.save(customer);
+        } else {
             throw new Exception("El usuario no ha sido encontrado");
-        } 
+        }
     }
 
     @Override
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        Usuario usuario = usuariorepositorio.buscarPorMail(mail);
-        
-        if (usuario != null) {
+        Customer customer = usuariorepositorio.findByEmail(mail);
+        if (customer != null) {
             List<GrantedAuthority> permisos = new ArrayList<>();
-//            GrantedAuthority p1 = new SimpleGrantedAuthority("MODULO_FOTO");
-//            permisos.add(p1);
-//            GrantedAuthority p2 = new SimpleGrantedAuthority("MODULO_LIBROS");
-//            permisos.add(p2);
-//            GrantedAuthority p3 = new SimpleGrantedAuthority("MODULO_AUTORES");
-//            permisos.add(p3);
-//            GrantedAuthority p4 = new SimpleGrantedAuthority("MODULO_EDITORIALES");
-//            permisos.add(p4);
-            GrantedAuthority rolePermissions = new SimpleGrantedAuthority("ROLE_"+usuario.getRol());
+            GrantedAuthority rolePermissions = new SimpleGrantedAuthority("ROLE_" + customer.getRol());
             permisos.add(rolePermissions);
-            User user = new User(usuario.getMail(), usuario.getContraseña(), permisos);
-            return user;
+            return new User(customer.getEmail(), customer.getPassword(), permisos);
         } else {
             throw new UsernameNotFoundException("El usuario no ha sido encontrado");
         }
-        
+
     }
 }

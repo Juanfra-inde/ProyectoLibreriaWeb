@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
 </head>
-<body>
+<body>  
     
   <header class="p-3 bg-dark text-white">
     <div class="container">
@@ -23,33 +23,47 @@
           <li><a th:href="@{/autores}" class="nav-link px-2 text-white" target="_blank">Autores</a></li>
           <li><a th:href="@{/libros}" class="nav-link px-2 text-white" target="_blank">Libros</a></li>
           <li><a th:href="@{/editoriales}" class="nav-link px-2 text-white" target="_blank">Editoriales</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Contacto</a></li>
+          <div sec:authorize="isAuthenticated()">
+            <li><a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/clientes}" class="nav-link px-2 text-white">Clientes</a></li>            
+          </div>            
+          <div sec:authorize="isAuthenticated()">
+            <li><a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/prestamos}" class="nav-link px-2 text-white">Prestamos</a></li>
+          </div>          
         </ul>
-
-        <!--
-          
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-        </form>
-
-        -->
-
         <div class="text-end">
-          <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-          <a href="/registro"><button type="button" class="btn btn-warning">Sign-up</button></a>
+          <a th:href="@{login}"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+          <a th:href="@{/clientes/registro}"><button type="button" class="btn btn-warning">Sign-up</button></a>
         </div>
 
       </div>
     </div>
-
-        <div>
-          <h1 class="titular 2">Libreria Pipo Neverdie</h1>
-        </div>
-        
-        
   </header>
 
+    <hgroup class="especifico">
+      <h1>Libreria Pipo</h1>
+      <h4>Tu libreria virtual</h3>
+    </hgroup>
+
     <section class="py-5 text-center container">
+        <!--
+        <img class="imagen" style="
+        background: url(https://www.upb.edu.co/es/imagenes/imgtipod-blgleyendosinseparador-megustarialeer-1464204951973.jpg)" src="https://www.upb.edu.co/es/imagenes/imgtipod-blgleyendosinseparador-megustarialeer-1464204951973.jpg" alt="">
+          
+        <div><img
+            style="
+                background: url(/static/img/BlogEditorial.jpg)
+                    no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                width: 100%;
+               "
+              src="/img/BlogEditorial.jpg"
+              alt=""
+            />
+        </div>  
+        -->  
         <div class="row py-lg-5">
           <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">Estrenos Esperados</h1>
@@ -124,9 +138,9 @@
     <footer class="text-muted py-5">
       <div class="container">
         <p class="float-end mb-1">
-          <a href="#">Pa arriba papi</a>
+          <a href="#">Up</a>
         </p>
-        <p class="mb-1">Derechos recervados &copy; Libreria Pipo Neverdie</p>        
+        <p class="mb-1">Derechos recervados Juan Francisco Indelicato &copy; Libreria Pipo Neverdie</p>        
       </div>
     </footer>
   

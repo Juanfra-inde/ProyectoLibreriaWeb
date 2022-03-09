@@ -1,7 +1,6 @@
 
 package com.libreria.libreria.controlers;
 
-import com.libreria.libreria.entitis.Autor;
 import com.libreria.libreria.entitis.Editorial;
 import com.libreria.libreria.service.EditorialService;
 import java.util.List;

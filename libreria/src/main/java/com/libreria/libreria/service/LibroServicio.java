@@ -75,7 +75,7 @@ public class LibroServicio {
         if (libro.getEjemplaresRestantes()<0 || libro.getEjemplaresRestantes() == null || libro.getEjemplaresRestantes()>libro.getEjemplares()) {
             throw new Exception("Los Ejemplares Restantes deben de tener un valor valido");
         }
-        
+       
     }
     
     public Boolean validarTitulo(String titulo){
