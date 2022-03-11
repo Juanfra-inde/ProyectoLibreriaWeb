@@ -33,15 +33,15 @@
             <li><a th:href="@{/libros/formulario}">Cargar un libro</a></li>
           </ul>
         </li>
-        <li><a th:href="@{/clientes}">Clientes</a>
+        <li><a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/clientes}">Clientes</a>
           <ul>
-            <li><a th:href="@{/clientes}">Lista de clientes</a></li>
+            <li><a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/clientes}">Lista de clientes</a></li>
           </ul>
         </li>
-        <li><a th:href="@{/#}">Prestamos</a>
+        <li><a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/prestamos}">Prestamos</a>
           <ul>
-            <li><a th:href="@{/#}">Lista de libros</a></li>
-            <li><a th:href="@{/#}">Cargar un libro</a></li>
+            <li><a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/prestamos}">Lista de prestamos</a></li>
+            <li><a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/prestamos/registro}">Cargar un prestamo</a></li>
           </ul>
         </li>
         <li class="singin"><a class="singin" th:href="@{/login}">Sign-in</a></li>
@@ -51,7 +51,8 @@
   </div>
   <div>
   <main>   
-
+    
+      <br>
       <div class="titular">
         <h1>Libreria Pipo</h1>
         <h2>Tu libreria virutal</h2>     

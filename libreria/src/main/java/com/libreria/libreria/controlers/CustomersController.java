@@ -36,11 +36,18 @@ public class CustomersController {
     }
 
     @GetMapping("/registro")
-    public String registro(ModelMap model, @RequestParam(required = false) String error) {
-        System.out.println("Usuario: ");
+    public String registro(ModelMap model, @RequestParam(required = false) String error,@RequestParam(required = false) String id) {
+        
         try {
-            model.addAttribute("customer", new Customer());
-            return "/customers/customer-form.html";
+            if(id==null){
+                model.addAttribute("customer", new Customer());
+                return "/customers/customer-form.html";
+            }else{
+                Customer customer = us.buscarPorId(id);
+                model.addAttribute("customer", customer);
+                return "/customers/customer-form.html";
+            }
+            
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "/customers/customer-form.html";
@@ -49,53 +56,22 @@ public class CustomersController {
 
     @PostMapping("/registro")
     public String restriar(MultipartFile archivo, @ModelAttribute Customer customer, ModelMap model) {
-        System.out.println("Usuario: " + customer);
+        
         try {
             us.registrar(archivo, customer);
             return "redirect:/login";
         } catch (Exception e) {
-            System.out.println("lkjasfghjkalfhashjajhajksdjkdsjdsfj");
             model.addAttribute("error", e.getMessage());
             model.put("customer", customer);
             return "/customers/customer-form.html";
         }
     }
 
-//    @GetMapping("/registrar")
-//    public String registro(@RequestParam(required = false) String id, ModelMap model){
-//          
-//        if(id == null){
-//            model.addAttribute("customer", new Customer());
-//            return "/customers/customer-form.html";
-//        }else{
-//            try {
-//                Customer customer = us.buscarPorId(id);
-//                model.addAttribute("customer", customer);
-//                return "/customers/customer-form.html";
-//            } catch (Exception e) {
-//                model.put("error", e.getMessage());
-//                return "/customers/customer-form.html";
-//            }
-//        }
-//    }
-//    
-//    @PostMapping("/registro")
-//    public String restriar2(MultipartFile archivo,@ModelAttribute Customer customer,ModelMap model,@PathVariable("id") String id){
-//        try {
-//            us.registrar(archivo, customer);
-//            return "login.html";
-//        } catch (Exception e) {
-//            model.addAttribute("error", e.getMessage());
-//            model.put("customer", customer);
-//            return "/customers/customer-form.html";
-//        }
-//    }
-    @GetMapping("/alta/{id}")
-    @PreAuthorize("hasAnayRole('ROLE_ADMIN')")
+    @GetMapping("/altabaja/{id}")
     public String altabaja(@PathVariable String id) {
         try {
             us.altabaja(id);
-            return "redirecto:/clientes";
+            return "redirect:/clientes";
         } catch (Exception e) {
             return "redirect:/cientes";
         }

@@ -1,14 +1,13 @@
 
 package com.libreria.libreria.entitis;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Prestamo {
@@ -18,22 +17,22 @@ public class Prestamo {
     @GenericGenerator(name = "uuid",strategy = "uuid2")
     private String id;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaDevolucion;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate fechaDevolucion;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaPrestamo;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate fechaPrestamo;
     
     private Boolean alta;
-    @OneToOne
+    @ManyToOne
     private Libro libro;
-    @OneToOne
+    @ManyToOne
     private Customer customer;
 
     public Prestamo() {
     }
 
-    public Prestamo(Date fechaDevolucion, Date fechaPrestamo, Boolean alta, Libro libro, Customer customer) {
+    public Prestamo(LocalDate fechaDevolucion, LocalDate fechaPrestamo, Boolean alta, Libro libro, Customer customer) {
         this.fechaDevolucion = fechaDevolucion;
         this.fechaPrestamo = fechaPrestamo;
         this.alta = alta;
@@ -49,19 +48,19 @@ public class Prestamo {
         this.id = id;
     }
 
-    public Date getFechaDevolucion() {
+    public LocalDate getFechaDevolucion() {
         return fechaDevolucion;
     }
 
-    public void setFechaDevolucion(Date fechaDevolucion) {
+    public void setFechaDevolucion(LocalDate fechaDevolucion) {
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public Date getFechaPrestamo() {
+    public LocalDate getFechaPrestamo() {
         return fechaPrestamo;
     }
 
-    public void setFechaPrestamo(Date fechaPrestamo) {
+    public void setFechaPrestamo(LocalDate fechaPrestamo) {
         this.fechaPrestamo = fechaPrestamo;
     }
 
