@@ -21,6 +21,7 @@
                   <li><a th:href="@{/autores}" class="nav-link px-2 text-white" >Autores</a></li>
                   <li><a th:href="@{/editoriales}" class="nav-link px-2 text-white" >Editoriales</a></li>          
                   <li><a th:href="@{/libros}" class="nav-link px-2 text-white" >Libros</a></li> 
+                  <li><a th:href="@{/clientes}" class="nav-link px-2 text-white" >Clientes</a></li> 
                   <li><a th:href="@{/prestamos}" class="nav-link px-2 text-white" >Prestamos</a></li> 
                 </ul>
               </div>
@@ -48,16 +49,16 @@
                         <td th:text="${prestamo.fechaPrestamo}"></td>				
                         <td th:text="${prestamo.fechaDevolucion}"></td>                        
                         <td th:text="${prestamo.libro.titulo}"></td>
-                        <td th:text="${prestamo.customer.name, prestamo.customer.apellido}"></td>
+                        <td th:text="${prestamo.customer.name}"></td>
                         <td th:text="${prestamo.alta != true ? 'Desactivo' : 'Activo'}"></td>
-                        <!--
+                        
                         <td>
-                        <a  th:href="@{clientes/registro(id = __${prestamo.id}__)}" >Editar</a>
+                        <a  th:href="@{prestamos/registro(id = __${prestamo.id}__)}" >Editar</a>
                         </td>           
                         <td >                
-                            <a th:text="${prestamo.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{clientes/altabaja/__${customer.id}__}"></a>
+                            <a th:text="${prestamo.alta != true ? 'Dar Baja' : 'Dar Alta'}" th:href="@{prestamos/altabaja/__${prestamo.id}__}"></a>
                         </td> 
-                        -->
+                        
                     </tr>
 
                 </tbody>

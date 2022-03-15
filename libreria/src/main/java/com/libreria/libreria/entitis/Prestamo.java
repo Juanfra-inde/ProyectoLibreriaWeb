@@ -24,6 +24,7 @@ public class Prestamo {
     private LocalDate fechaPrestamo;
     
     private Boolean alta;
+    
     @ManyToOne
     private Libro libro;
     @ManyToOne
@@ -86,6 +87,11 @@ public class Prestamo {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "Prestamo{" + "id=" + id + ", fechaDevolucion=" + fechaDevolucion + ", fechaPrestamo=" + fechaPrestamo + ", alta=" + alta + ", libro=" + libro + ", customer=" + customer + '}';
     }
     
     

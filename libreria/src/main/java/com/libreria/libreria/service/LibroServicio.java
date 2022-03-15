@@ -44,6 +44,16 @@ public class LibroServicio {
         }
         
     }
+    
+    @Transactional
+    public void prestamoLibro(String id) throws Exception{
+        
+        Libro libro = librorepositorio.findById(id).get();
+        libro.setEjemplares(libro.getEjemplares()-1);
+        libro.setEjemplaresPrestados(libro.getEjemplaresPrestados()+1);
+        libro.setEjemplaresRestantes(lPrestados(libro.getEjemplares(), libro.getEjemplaresPrestados()));
+        
+    }
 
     @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn  = Exception.class)
     private void validar(Libro libro) throws Exception {

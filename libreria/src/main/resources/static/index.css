@@ -1,6 +1,6 @@
 .titular{    
     text-align: center;
-    color: rgba(0, 0, 0, 0.87);
+    color: azure;
     text-shadow: 1px 1px;    
 }
 .tituloprincipal{
@@ -13,9 +13,7 @@
     background-size: cover;
     font-family: Arial;
 }
-.body{
-    background: url(img/BlogEditorial.jpg);    
-}
+
 h1 {
 	text-shadow: 1px 1px;    
 }

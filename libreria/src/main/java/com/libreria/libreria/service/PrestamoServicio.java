@@ -27,13 +27,16 @@ public class PrestamoServicio {
     @Transactional
     public void guardar(Prestamo prestamo,String customerId,String libroId) throws Exception{
         Libro libro = ls.buscarPorId(libroId);
-        Customer customer = us.buscarPorId(libroId);
+        Customer customer = us.buscarPorId(customerId);
         
         prestamo.setCustomer(customer);
         prestamo.setLibro(libro);
         altabaja(prestamo);
         
         validar(prestamo);
+        System.out.println("Fecha1: " + prestamo.getFechaPrestamo());
+        System.out.println("Fecha2: " + prestamo.getFechaDevolucion());
+        ls.prestamoLibro(libroId);
         
         pr.save(prestamo);
     }   
@@ -51,6 +54,19 @@ public class PrestamoServicio {
         }else{
             prestamo.setAlta(false);
         }
+    }
+   
+    @Transactional(value = Transactional.TxType.REQUIRED, rollbackOn = Exception.class)
+    public void cambiaralta(String id) throws Exception{
+        Prestamo prestamo = pr.findById(id).get();
+                   
+        if (prestamo.getAlta() == null || prestamo.getAlta() == false) {
+            prestamo.setAlta(true);
+        }else{
+            prestamo.setAlta(true);
+        }
+        
+        pr.save(prestamo);
     }
     private void validar(Prestamo prestamo) throws Exception{
         

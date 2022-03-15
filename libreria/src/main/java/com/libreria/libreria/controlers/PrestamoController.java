@@ -1,24 +1,25 @@
 
 package com.libreria.libreria.controlers;
 
-import com.libreria.libreria.entitis.Customer;
-import com.libreria.libreria.entitis.Libro;
 import com.libreria.libreria.entitis.Prestamo;
 import com.libreria.libreria.service.LibroServicio;
 import com.libreria.libreria.service.PrestamoServicio;
 import com.libreria.libreria.service.UsuarioServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/prestamos")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 public class PrestamoController {
     
     private final PrestamoServicio ps;
@@ -45,26 +46,24 @@ public class PrestamoController {
     
     @GetMapping("/registro")
     public String registro(ModelMap model,@RequestParam(required = false) String id){
-        List<Libro> libros = ls.listarLibros();
-        List<Customer> customers = us.buscarUsuarios();
+        
         try{
-            if (id != null) {
-                Prestamo prestamo = ps.buscarPorId(id);
-                model.addAttribute("prestamo", prestamo);
-                model.addAttribute("customers", customers);
-                model.addAttribute("libros", libros);
+            if (id != null) {                
+                model.addAttribute("prestamo", ps.buscarPorId(id));
+                model.addAttribute("customers", us.buscarUsuarios());
+                model.addAttribute("libros", ls.listarLibros());
                 return "/prestamos/form.html";
             }else{
                 model.addAttribute("prestamo",new Prestamo());
-                model.addAttribute("customers", customers);
-                model.addAttribute("libros", libros);
+                model.addAttribute("customers", us.buscarUsuarios());
+                model.addAttribute("libros", ls.listarLibros());
                 return "/prestamos/form.html";
             }
            
         }catch(Exception e){
             model.addAttribute("error",e.getMessage());
-            model.addAttribute("customers", customers);
-            model.addAttribute("libros", libros);
+            model.addAttribute("customers", us.buscarUsuarios());
+            model.addAttribute("libros", ls.listarLibros());
             return "/prestamos/form.html";
         }
     }
@@ -78,10 +77,20 @@ public class PrestamoController {
             return "redirect:/prestamos";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            model.put("prestamo", prestamo);
-            return "/prestamos/form";
+            model.addAttribute("prestamo", prestamo);
+            return "/prestamos/form.html";
         }
         
+    }
+    
+    @GetMapping("/altabaja/{id}")
+    public String altabaja(@PathVariable("id") String id){
+        try {
+            ps.cambiaralta(id);
+            return "redirect:/prestamos";
+        } catch (Exception e) {            
+            return "redirect:/prestamos";
+        }
     }
     
 }

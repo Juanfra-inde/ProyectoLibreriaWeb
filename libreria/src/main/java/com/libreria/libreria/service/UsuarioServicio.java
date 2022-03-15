@@ -38,10 +38,10 @@ public class UsuarioServicio implements UserDetailsService {
 
         validar(customer);
         activaralta(customer);
-        
+
         Foto foto = fotorepositorio.guardar(archivo);
         customer.setFoto(foto);
-        
+
         customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
         usuariorepositorio.save(customer);
 
@@ -56,7 +56,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public void validar(Customer customer) throws Exception {
-        
+
         if (customer.getName() == null || customer.getName().isEmpty() || customer.getName().equals(" ")) {
             throw new Exception("El nombre ingresado es incorrecto");
         }
@@ -72,13 +72,11 @@ public class UsuarioServicio implements UserDetailsService {
         if (customer.getPassword() == null || customer.getPassword().isEmpty() || customer.getPassword().contains(" ") || customer.getPassword().length() < 6) {
             throw new Exception("La contraseña ingresado es invalido");
         }
-        
+
         if (customer.getEmail().equals(usuariorepositorio.findByEmail(customer.getEmail()))) {
             throw new Exception("El e-mail ingresado ya se encuentra registrado");
         }
-        
-        
-        
+
     }
 
     @Transactional
@@ -105,8 +103,8 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public Customer buscarPorId(String id) {
-        return usuariorepositorio.findById(id).get();
+    public Customer buscarPorId(String id) throws Exception {
+        return usuariorepositorio.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado"));
     }
 
     @Transactional

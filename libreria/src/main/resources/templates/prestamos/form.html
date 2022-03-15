@@ -16,13 +16,15 @@
                         <h1 th:text="${prestamo.id != null and !#strings.isEmpty(prestamo.id) ? 'Editar Prestamo' : 'Nuevo Prestamo'}" class="display-1"></h1>                        
                     </div>
                     <div class="mb-3">
-                        <label for="fechaPrestamo" class="form-label">Fecha del prestamo</label>
-                        <input type="date" class="form-control" th:field="*{fechaPrestamo}" th:value="*{fechaPrestamo}" placeholder="dd/mm/aa">
+                        <label for="fechaDevolucion" class="form-label">Fecha de devolucion</label>
+                        <input type="date" class="form-control" th:field="*{fechaDevolucion}" th:value="${#temporals.formatISO(prestamo.fechaDevolucion)}" placeholder="dd/mm/aa">
+                        <!--<input type="date" th:field="*{startDate}" th:value="${#temporals.formatISO(loan.startDate)}">-->
+
                     </div>
                     <div class="mb-3">
-                        <label for="fechaPrestamo" class="form-label">Fecha de devolucion</label>
-                        <input type="date" class="form-control" th:field="*{fechaPrestamo}" th:value="*{fechaPrestamo}" placeholder="dd/mm/aa">                    
-                    
+                        <label for="fechaPrestamo" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" th:field="*{fechaPrestamo}" th:value="${#temporals.formatISO(prestamo.fechaPrestamo)}" placeholder="dd/mm/aa">                    
+                    </div>
                     <div class="mb-3">
                         <label for="disabledSelect" class="form-label">Cliente</label>
                         <select id="disabledSelect" class="form-select" name="customerId">
@@ -40,13 +42,13 @@
                         </select>                    
                     </div>
                     </div>                  
-                        <input type="hidden" class="form-control" th:field="*{id}" th:value="${prestamo.id}">
-                        <input type="hidden" class="form-control" th:field="*{alta}" th:value="${prestamo.alta}">
+                        <input type="hidden" class="form-control" th:field="*{prestamo.id}" th:value="${prestamo.id}">
+                        <input type="hidden" class="form-control" th:field="*{prestamo.alta}" th:value="${prestamo.alta}">
                     </div>   
                     <div>
                         <p th:if="${error != null}" th:text="${error}" style="color: red;"></p>
                         <button th:text="${prestamo.id != null && !#strings.isEmpty(prestamo.id) ? 'Guardar' : 'Crear'}" class="btn btn-primary" type="submit"></button>
-                        <button th:href="@{/prestamos}" class="btn btn-primary my-2">Volver</button>
+                        <button th:href="@{/}" class="btn btn-primary my-2">Volver</button>
                     </div>                
                     
                 </fieldset>
